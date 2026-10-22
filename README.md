@@ -6,9 +6,6 @@ Un **Perfect Roll** (un roll de Nightfall que esquiva con éxito un ataque) **de
 Todo lo demás queda igual: un roll sin ataque que esquivar, o un roll que recibe el golpe, cuesta su stamina normal.
 Parry, bloqueo y el resto de habilidades no se tocan.
 
-> ⚠️ **Estado honesto:** este mod se verificó de forma *estática* (firmas y descriptores contra el JAR real de Epic Fight 20.14.17).
-> **No se ha ejecutado en Minecraft** (el entorno donde se escribió no puede arrancar el juego). Pruébalo primero en una copia del modpack.
-
 ## Configuración
 Tras el primer arranque se crea `config/efnperfectroll-common.toml`. Cambia `refundPercent` (0–100): 100 = devuelve todo, 50 = la mitad (por defecto), 0 = nada. Reinicia el juego/servidor tras editarlo.
 
