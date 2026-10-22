@@ -30,7 +30,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *  1. SKILL_CONSUME_EVENT: remember (server side) the consume event of the latest dodge-type skill, and the
  *     stamina the player had right before the consumption.
  *  2. DODGE_SUCCESS_EVENT: if the latest dodge was a Nightfall roll, is recent, and really consumed stamina,
- *     give back exactly the amount that roll consumed. The record is removed first, so it can happen only once.
+ *     give back the configured share (default 50%) of the amount that roll consumed. The record is removed first, so it can happen only once.
  * Stamina is a SynchedEntityData value of Epic Fight, so the client receives the new value automatically.
  */
 @Mod.EventBusSubscriber(modid = EfnPerfectRoll.MODID, bus = Mod.EventBusSubscriber.Bus.FORGE)
@@ -105,10 +105,15 @@ public final class PerfectRollHandler {
         if (amount <= 0.0F || roll.staminaBefore() < amount) {
             return; // the stamina check failed, so nothing was consumed
         }
-        float newStamina = Math.min(patch.getMaxStamina(), patch.getStamina() + amount);
+        double percent = PerfectRollConfig.REFUND_PERCENT.get();
+        float refund = (float) (amount * percent / 100.0D);
+        if (refund <= 0.0F) {
+            return;
+        }
+        float newStamina = Math.min(patch.getMaxStamina(), patch.getStamina() + refund);
         patch.setStamina(newStamina);
-        LOGGER.info("[efnperfectroll] Perfect Roll: refunded {} stamina to {} (now {})",
-                amount, patch.getOriginal().getGameProfile().getName(), newStamina);
+        LOGGER.info("[efnperfectroll] Perfect Roll: refunded {} of {} stamina ({}%) to {} (now {})",
+                refund, amount, percent, patch.getOriginal().getGameProfile().getName(), newStamina);
     }
 
     @SubscribeEvent

@@ -1,6 +1,8 @@
 package com.yansel.efnperfectroll;
 
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 
 /**
  * EFN Perfect Roll. All logic lives in {@link PerfectRollHandler}; this class only declares the mod.
@@ -11,5 +13,6 @@ public class EfnPerfectRoll {
     public static final String MODID = "efnperfectroll";
 
     public EfnPerfectRoll() {
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, PerfectRollConfig.SPEC);
     }
 }
